@@ -1,5 +1,4 @@
 import random
-
 from pico2d import *
 
 TUK_WIDTH, TUK_HEIGHT = 1280, 1024
@@ -10,37 +9,31 @@ character = load_image('animation_sheet.png')
 hand = load_image('hand_arrow.png')
 
 def hand_arrow_draw():
-    global x, y
-    x = (random.randint(0,1280))
-    y = (random.randint(0,1024))
-
-    hand.clip_draw(0, 0, 50, 50, x, y)
-
-def stop_events():
-    global running
-    event = get_events()
-    for event in event:
-        if event.type == SDL_KEYDOWN and event.key == SDLK_ESCAPE:
-            running = False
-
+    global x2, y2
+    x2 = (random.randint(0, 1280))
+    y2 = (random.randint(0, 1024))
 
 running = True
-x, y = TUK_WIDTH // 2, TUK_HEIGHT // 2
+x1, y1 = TUK_WIDTH // 2, TUK_HEIGHT // 2
+x2, y2 = 0, 0
 frame = 0
 hide_cursor()
 
 while running:
-    clear_canvas()
-    TUK_ground.draw(TUK_WIDTH // 2, TUK_HEIGHT // 2)
     hand_arrow_draw()
-    character.clip_draw(frame * 100, 100 * 1, 100, 100, x, y)
-    update_canvas()
-    frame = (frame + 1) % 8
-    stop_events()
-    delay(0.1)
-
-close_canvas()
-
-
-
-
+    for i in range(0, 100, 4):
+        events = get_events()
+        for event in events:
+            if event.type == SDL_KEYDOWN and event.key == SDLK_ESCAPE:
+                running = False
+                close_canvas()
+        clear_canvas()
+        TUK_ground.draw(TUK_WIDTH // 2, TUK_HEIGHT // 2)
+        hand.clip_draw(0, 0, 50, 50, x2, y2)
+        t = i / 100
+        x = (1 - t) * x1 + t * x2
+        y = (1 - t) * y1 + t * y2
+        character.clip_draw(frame * 100, 100 * 1, 100, 100, x, y)
+        update_canvas()
+        frame = (frame + 1) % 8
+        delay(0.1)
