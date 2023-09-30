@@ -40,7 +40,7 @@ while running:
         if x2 > x1:
             character.clip_draw(frame * 100, 100 * 1, 100, 100, x, y)
         else :
-            character.clip_composite_draw(frame * 100, 0, 100, 100, 0, 'h', x, y)
+            character.clip_draw(frame * 100, 0, 100, 100, x, y)
         update_canvas()
         frame = (frame + 1) % 8
         #delay(0.001)
